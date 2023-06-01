@@ -6,12 +6,28 @@ function ChatMessages(props) {
 
     const messages = props.messages;
 
-    const displayMessages = messages.length == 0 ? "" : messages.map((message, index) => (
-        <div key={index} className="chat-message">
-            <span className="timestamp">{message.timestamp}</span>
-            <p>{message.text}</p>
-        </div>
-    ));
+    console.log(messages);
+
+    // const displayMessages = messages.length === 0 ? "" : messages.text.map((message, index) => (
+    //     <p>{message.text}<br /></p>
+    // ));
+    messages.forEach( (index) => {
+        // <div key={`message-${uuid()}`} className="chat-message">
+        //     <span className="timestamp">{messages.timestamp}</span>
+        // </div>
+        index.text.map( (message) => {
+            <p>{message}</p>
+        });
+    });
+
+    const displayMessages = messages.length === 0 ? "" : messages.forEach( (index) => {
+        // <div key={`message-${uuid()}`} className="chat-message">
+        //     <span className="timestamp">{messages.timestamp}</span>
+        // </div>
+        index.text.map( (message) => {
+            <p>{message}</p>
+        });
+    });
 
     return (
         <div className="chat-messages">
