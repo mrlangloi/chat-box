@@ -7,15 +7,19 @@ import ChatOptions from './ChatOptions';
 
 //i need to find a way to render each line separately so it's not just a huge wall of text w/o spacing
 
-function ChatWindow() {
+function ChatWindow(props) {
 
     const API_URL = process.env.REACT_APP_API_URL;
     const API_KEY = process.env.REACT_APP_API_KEY;
+
+    const character = props.character;
 
     const [messages, setMessages] = useState([]);
     const [userOptions, setOptions] = useState([]);
 
     const [request, setRequest] = useState('');
+
+
 
     //testing options
     useEffect( () => {
@@ -24,11 +28,9 @@ function ChatWindow() {
 
     //display message(s) onto the window
     const displayMessage = (message) => {
-        const textMsg = `${message}`;
-        const textMsgArray = textMsg.split('\n');
-        
+        const textMsg = `${message}`;        
         const newMessage = {
-            text: textMsgArray,
+            text: `${textMsg}`,
             timestamp: new Date().toLocaleTimeString(),
         };
 
@@ -45,8 +47,8 @@ function ChatWindow() {
                     //     { role: 'user', content: request },
                     // ],
                     messages: [
-                        { role: 'system', content: 'You create me a text-based RPG scenario.' },
-                        { role: 'user', content: 'I want an interactive short RPG scenario where I am a rogue.' },
+                        { role: 'system', content: 'You are a helpful assistant.' },
+                        { role: 'user', content: `I want a you to start me a short RPG scenario where I am a ${character.myRace} ${character.myClass} under the name ${character.myName}. I just need a character lore and a current rpg situation, no choices nor outcomes. Do not respond with "Sure!" or anything that depicts AI-language.` },
                     ],
                 }, {
                     headers: {
