@@ -1,34 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+//this component is a character sheet that the user can update to their liking
 
 function CharacterSheet(props) {
 
-    const setCharacter = props.setCharacter;
+    const myCharacter = props.myCharacter;
+    const setMyCharacter = props.setMyCharacter;
 
+    //handles updating the character name
     const handleNameChange = (e) => {
         e.preventDefault();
-        setCharacter({myName: `${e.target.value}`});
-    }
 
-    const characterRaces = ['Human', 'Elf', 'Dwarf', 'Lizard'];
-    const characterRacesMap = characterRaces.map( (charRace) => (
-        <React.Fragment key={`race-${charRace}`}>
-            <label>
-                <input type='radio' name='characterRace' onClick={() => setCharacter({myRace: charRace})}/>
-                <span>{charRace}</span>
-            </label>
-        </React.Fragment>
-    ));
+        setMyCharacter( (prevCharacter) => {
+            return [{ ...prevCharacter[0], myName: e.target.value}];
+        });
+    };
 
-    const characterClass = ['Barbarian', 'Cleric', 'Fighter', 'Ranger', 'Rogue', 'Wizard'];
-    const characterClassMap = characterClass.map( (charClass) => (
+    //handles updating existing character properties
+    const updateCharacter = (property, value) => {
+        setMyCharacter( (prevCharacter) => {
+            return [{ ...prevCharacter[0], [property]: value}];
+        });
+    };
+
+
+    //character classes
+    const classOptions = ['Barbarian', 'Cleric', 'Fighter', 'Ranger', 'Rogue', 'Wizard'];
+
+    const classOptionsMap = classOptions.map( (charClass) => (
         <React.Fragment key={`class-${charClass}`}>
             <label>
-                <input type='radio' name='characterClass' onClick={() => setCharacter({myClass: charClass})}/>
+                <input 
+                    type='radio' 
+                    name='characterClass' 
+                    checked={myCharacter[0].myClass === charClass}
+                    onChange={() => updateCharacter('myClass', charClass)}
+                />
                 <span>{charClass}</span>
             </label>
         </React.Fragment>
     ));
 
+    //character races
+    const raceOptions = ['Human', 'Elf', 'Dwarf', 'Lizard'];
+
+    const raceOptionsMap = raceOptions.map( (charRace) => (
+        <React.Fragment key={`race-${charRace}`}>
+            <label>
+                <input 
+                    type='radio' 
+                    name='characterRace' 
+                    checked={myCharacter[0].myRace === charRace}
+                    onChange={() => updateCharacter('myRace', charRace)}
+                />
+                <span>{charRace}</span>
+            </label>
+        </React.Fragment>
+    ));
+
+    //for debugging purposes
+    useEffect( () => {
+        console.log(`I am a ${myCharacter[0].myRace} ${myCharacter[0].myClass} under the name ${myCharacter[0].myName}.`);
+    }, [myCharacter]);
+
+    
     return (
         <div className="charSheetDiv">
             <div className="row charNameDiv">
@@ -38,13 +73,19 @@ function CharacterSheet(props) {
                 </div>
             </div>
 
-            <div className="charRaceDiv">
-                {characterRacesMap}
+            <div className="charClass">
+                {classOptionsMap}
             </div>
 
-            <div className="charClassDiv">
-                {characterClassMap}
+            <div className="charRace">
+                {raceOptionsMap}
             </div>
+
+            <button
+                onClick={props.handleSendMessage}
+            >
+                Generate!
+            </button>
             
         </div>
     );
