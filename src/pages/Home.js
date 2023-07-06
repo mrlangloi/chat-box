@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import CharacterSheet from '../components/CharacterSheet.js';
 import ChatWindow from '../components/ChatWindow.js';
 
+/*
+I just found out that chatgpt is pay-per-use and my trial
+has expired. therefore, this project is now deprecated.
+*/
+
 /* todo
 - perhaps find a way to condense chatGPT response so there are breaks in-between lines??
 - beautify the page (flexbox, materialCSS)
@@ -26,7 +31,7 @@ function Home() {
 
   //display message(s) onto the window
   const displayMessage = (message) => {
-    const textMsg = `${message}`;        
+    const textMsg = `${message}`;
     const newMessage = {
         text: `${textMsg}`,
         timestamp: new Date().toLocaleTimeString(),
